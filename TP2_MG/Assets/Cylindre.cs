@@ -5,10 +5,9 @@ using UnityEngine;
 public class Cylindre : MonoBehaviour
 {
     const float PI = 3.1415926f;
-    [Range(1, 100)]
-    public int rayon, hCylindre, nbMeridien;
-    public int[] triangles; //structure de données qui accueille les triangles (avec 3 sommets par triangle)
-    public Vector3[] vertices; //structure de données qui accueille sommets
+    public int rayon, hauteur, nmeridien;
+    public int[] triangles;
+    public Vector3[] vertices;
     public Material mat;
     // Start is called before the first frame update
     void Start()
@@ -18,43 +17,43 @@ public class Cylindre : MonoBehaviour
 
         // Création des structures de données qui accueilleront sommets et  triangles  // Remplissage de la structure sommet 
 
-        vertices = new Vector3[nbMeridien * 2 + 2]; // car on deux cercles/disques => (nbMeridien + 1) + (nbMeridien + 1)
-        triangles = new int[nbMeridien * 4 * 3]; // car on 4 triangles en tout par méridien et par triangle on 3 sommets
+        vertices = new Vector3[nmeridien * 2 + 2];
+        triangles = new int[nmeridien * 4 * 3];
 
 
-        vertices[nbMeridien * 2] = new Vector3(0, 0, 0);
-        vertices[nbMeridien * 2 + 1] = new Vector3(0, hCylindre, 0); // par rapport aux facettes du cylindre
+        vertices[nmeridien * 2] = new Vector3(0, 0, 0);
+        vertices[nmeridien * 2 + 1] = new Vector3(0, hauteur, 0);
 
-        for (int i = 0; i < nbMeridien; i++)
+        for (int i = 0; i < nmeridien; i++)
         {
-            vertices[i] = new Vector3(rayon * Mathf.Sin((2 * PI * i + 1) / nbMeridien), 0, rayon * Mathf.Cos((2 * PI * i + 1) / nbMeridien)); // (x, 0, z) avec y=0
-            vertices[i + nbMeridien + 1] = new Vector3(rayon * Mathf.Sin((2 * PI * i + 1) / nbMeridien), hCylindre, rayon * Mathf.Cos((2 * PI * i + 1) / nbMeridien)); // (x, h, z) avec y=h
+            vertices[i] = new Vector3(rayon * Mathf.Sin((2 * PI * i + 1) / nmeridien), 0, rayon * Mathf.Cos((2 * PI * i + 1) / nmeridien));
+            vertices[i + nmeridien + 1] = new Vector3(rayon * Mathf.Sin((2 * PI * i + 1) / nmeridien), hauteur, rayon * Mathf.Cos((2 * PI * i + 1) / nmeridien));
+        }
+        int k = 0;
+        for (int j = 0; j < nmeridien; j++)
+        {
+            triangles[k] = nmeridien;
+            triangles[k + 1] = (j + 1) % nmeridien;
+            triangles[k + 2] = j;
+
+            triangles[k + 3] = nmeridien * 2 + 1;
+            triangles[k + 4] = j + nmeridien + 1;
+            triangles[k + 5] = (j + 1) % nmeridien + nmeridien + 1;
+
+            triangles[k + 6] = j;
+            triangles[k + 7] = (j + 1) % nmeridien + nmeridien + 1;
+            triangles[k + 8] = j + nmeridien + 1;
+
+            triangles[k + 9] = j;
+            triangles[k + 10] = (j + 1) % nmeridien;
+            triangles[k + 11] = (j + 1) % nmeridien + nmeridien + 1;
+
+            k += 12;
         }
 
-        int c = 0;
 
-        for (int i = 0; i < nbMeridien; i++)
-        {
-            triangles[c] = 
-            triangles[c + 1] = 
-            triangles[c + 2] = 
-
-            triangles[c + 3] = 
-            triangles[c + 4] = 
-            triangles[c + 5] = 
-
-            triangles[c + 6] = 
-            triangles[c + 7] =
-            triangles[c + 8] = 
-
-            triangles[c + 9] = 
-            triangles[c + 10] = 
-            triangles[c + 11] = 
-
-            c += 12;
-        }
-
-
+        // Remplissage de la structure triangle. Les sommets sont représentés par leurs indices
+        // les triangles sont représentés par trois indices (et sont mis bout à bout)
 
 
 
@@ -63,8 +62,10 @@ public class Cylindre : MonoBehaviour
         msh.vertices = vertices;
         msh.triangles = triangles;
 
+
         gameObject.GetComponent<MeshFilter>().mesh = msh;           // Remplissage du Mesh et ajout du matériel
         gameObject.GetComponent<MeshRenderer>().material = mat;
 
     }
+
 }

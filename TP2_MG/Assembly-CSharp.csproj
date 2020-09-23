@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Assets\Cercle.cs" />
     <Compile Include="Assets\Cylindre.cs" />
+    <Compile Include="Assets\Sphere.cs" />
     <Compile Include="Assets\Triangle.cs" />
     <Compile Include="Assets\Triangle_plan.cs" />
     <Compile Include="Assets\Triangles_rectangle.cs" />
