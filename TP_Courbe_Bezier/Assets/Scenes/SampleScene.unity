@@ -481,6 +481,7 @@ MonoBehaviour:
   - {fileID: 1315608118}
   numberOfPoints: 20
   nCtrlPoints: 4
+  ctrlPointlineRenderer: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
